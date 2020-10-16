@@ -1,8 +1,22 @@
 ---
 # tasks file for rehoming
-- include: juniper.yml
 - include: juniper_vrf.yml
+  when: vendor == "Juniper"
+  
 - include: cisco_version.yml
+  when: vendor == "Cisco"
+  
 - include: cisco_vrf.yml
-#- include: huawei_vrf.yml
+  when: vendor == "Cisco"
+  
+- include: huawei_vrf.yml
+  when: vendor == "Huawei"
+  
 - include: huawei_version.yml
+  when: vendor == "Huawei"
+  
+- include: telnet_huawei.yml
+  when: vendor == "Huawei_telnet"
+  
+- include: cisco_telnet.yml
+  when: vendor == "Cisco_telnet"

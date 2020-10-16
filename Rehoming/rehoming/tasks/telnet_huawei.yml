@@ -1,0 +1,31 @@
+---
+
+- name: Ejecucion de comandos Huawei
+  telnet:
+    user: u623994
+    password: Talleres13
+    login_prompt: "Username:"
+    password_prompt: "Password:"
+    prompts:
+      - "{{ ansible_host }}.*(#|>)"
+    command:
+      - 'dis ver'
+  register: version   
+  until: version is not failed
+  delay: 2  
+  
+- name: Parseo Version 
+  set_fact:
+    ver: "{{ version.output[0] | parse_cli_textfsm('./rehoming/templates/huawei_version.fsm') }}"
+  delegate_to: localhost
+
+- name: Name 
+  set_fact:
+    name: "{{ansible_host}}"
+  
+- name: Generar CSV Version
+  template:
+    src:  './rehoming/templates/huawei_version.j2'
+    dest: './rehoming/files/Huawei_Caja_t.csv'
+  delegate_to: localhost
+  ignore_errors: True  
