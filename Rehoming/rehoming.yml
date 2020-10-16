@@ -1,10 +1,19 @@
 ---
 - name: Role Rehoming
-  hosts: Huawei
+  hosts: TEP1MU
   connection: network_cli
   gather_facts: false
   
   roles:
     - rehoming
+  tags:
+    - ssh
     
-    
+- name: Prueba telnet
+  hosts: Telnet
+  gather_facts: no
+
+  roles:
+    - rehoming
+  tags:
+    - telnet
