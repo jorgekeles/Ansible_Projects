@@ -1,0 +1,23 @@
+---
+
+- name: Display Device
+  ce_command:
+    commands:
+      - 'dis ver'
+  register: version
+  
+- name: Parseo Version 
+  set_fact:
+    ver: "{{ version.stdout[0] | parse_cli_textfsm('./rehoming/templates/huawei_version.fsm') }}"
+  delegate_to: localhost
+  
+- name: Name 
+  set_fact:
+    name: "{{ansible_host}}"
+    
+- name: Generar CSV Version
+  template:
+    src:  './rehoming/templates/huawei_version.j2'
+    dest: './rehoming/files/Huawei_Caja.csv'
+  delegate_to: localhost
+  ignore_errors: True  

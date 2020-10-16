@@ -1,0 +1,10 @@
+---
+- name: Role Rehoming
+  hosts: Huawei
+  connection: network_cli
+  gather_facts: false
+  
+  roles:
+    - rehoming
+    
+    

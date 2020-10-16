@@ -1,0 +1,19 @@
+---
+
+- name: Show version
+  junos_command:
+    commands:
+      - 'show version'
+  register: version
+ 
+- name: Parse Version
+  set_fact:
+    ver: "{{ version.stdout[0] | parse_cli_textfsm('./rehoming/tasks/juniper.fsm') }}"
+  delegate_to: localhots
+  
+- name: Generar CSV
+  template:
+    src:  './rehoming/templates/juniper.j2'
+    dest: './rehoming/files/Juniper.csv'
+  delegate_to: localhost
+  ignore_errors: True  

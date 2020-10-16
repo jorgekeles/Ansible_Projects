@@ -1,0 +1,3 @@
+{% for var in ansible_play_hosts%}
+{{hostvars[var].name}};{{hostvars[var].ver[0].caja}};{{hostvars[var].ver[0].ver}};Huawei
+{% endfor%}

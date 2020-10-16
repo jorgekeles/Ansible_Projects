@@ -1,0 +1,6 @@
+Value ver (\d+.\d+.\d+)
+Value caja ([\s\S]+)
+
+Start
+  ^Cisco IOS XR Software, Version\s+${ver} 
+  ^cisco\s+${caja}\s+Series -> Record

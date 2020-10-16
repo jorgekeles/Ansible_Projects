@@ -1,0 +1,25 @@
+---
+
+- name: Show Version
+  iosxr_command:
+    commands:
+        - 'show version'
+  register: version
+  retries: 2
+  delay: 2
+    
+- name: Parseo Version 
+  set_fact:
+    ver: "{{ version.stdout[0] | parse_cli_textfsm('./rehoming/templates/cisco_version.fsm') }}"
+  delegate_to: localhost
+  
+- name: Name 
+  set_fact:
+    name: "{{ansible_host}}"
+    
+- name: Generar CSV Version
+  template:
+    src:  './rehoming/templates/cisco_version.j2'
+    dest: './rehoming/files/Cisco_Caja.csv'
+  delegate_to: localhost
+  ignore_errors: True  

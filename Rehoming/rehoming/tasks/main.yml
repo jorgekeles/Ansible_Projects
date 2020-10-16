@@ -1,0 +1,8 @@
+---
+# tasks file for rehoming
+- include: juniper.yml
+- include: juniper_vrf.yml
+- include: cisco_version.yml
+- include: cisco_vrf.yml
+#- include: huawei_vrf.yml
+- include: huawei_version.yml

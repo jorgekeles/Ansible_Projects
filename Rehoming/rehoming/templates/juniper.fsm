@@ -1,0 +1,8 @@
+Value hostname (\w+\d.\w+\d)
+Value model ([\s\S]+)
+Value ver ([\s\S]+)
+
+Start
+  ^Hostname:\s+${hostname}
+  ^Model:\s+${model}
+  ^Junos:\s+${ver} -> Record

@@ -1,0 +1,5 @@
+Value vrf_name ([\s\S]+)
+Value r_dis (\d+:\d+)
+
+Start
+  ^router[\s\S]+vrf\s+${vrf_name}\s+rd\s+${r_dis} -> Record

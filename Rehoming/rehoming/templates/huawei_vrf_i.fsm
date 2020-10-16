@@ -1,0 +1,4 @@
+Value import (\w+:\w+)
+
+Start
+  ^\s+vpn-target\s+${import} import-extcommunity -> Record

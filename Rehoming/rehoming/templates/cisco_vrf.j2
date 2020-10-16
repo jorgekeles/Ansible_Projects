@@ -1,0 +1,6 @@
+{% for var in ansible_play_hosts%}
+{% set uno = hostvars[var].cant_vrf| int %}
+{% for i in range (uno)%}
+{{hostvars[var].name}};{{hostvars[var].vrf[i].vrf_name}};{{hostvars[var].vrf[i].r_dis}}
+{% endfor %}
+{% endfor %}

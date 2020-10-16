@@ -1,0 +1,6 @@
+Value ver ([\s\S]+)
+Value caja ([\s\S]+)
+
+Start
+  ^VRP[\s\S]+Version ${ver}\s\(
+  ^HUAWEI\s+${caja}\s+uptime -> Record

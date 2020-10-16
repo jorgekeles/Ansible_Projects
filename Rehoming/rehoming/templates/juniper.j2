@@ -1,0 +1,8 @@
+Hostname;Model;Version;RoutingEngine;FCP
+{% for var in ansible_play_hosts%}
+
+{% set uno = hostvars[var].cant_ver| int %}
+{% for i in range(uno) %}
+{{hostvars[var].ver[i].hostname}};{{hostvars[var].ver[i].model}};{{hostvars[var].ver[i].ver}};Juniper;{{hostvars[var].routing[0].routing}};{% set dos = hostvars[var].cant_caja| int %}{% for e in range(dos) %}{{hostvars[var].caja[e].fpcm}} |{% endfor %}
+{% endfor %}
+{% endfor %}

@@ -1,0 +1,77 @@
+---
+- name: Show VRF
+  ce_command:
+    commands:
+      - 'display ip vpn-instance import-vt 7303:2986'
+  register: vrfs
+  
+# - set_fact:
+    # prueba: "{{ item | regex_findall('vpn-instance (.*)')}}"
+    # prueba1: "{{ item | regex_findall('vpn-target (.*) import')}}"
+  # with_items:
+    # - "{{vrfs.stdout}}"
+
+# - debug:
+    # msg: "{{prueba[0]}};{{prueba1[0:2]}}"
+
+
+     
+- name: Parseo Chassis / VRF 
+  set_fact:
+    vrf: "{{ vrfs.stdout[0] | parse_cli_textfsm('./rehoming/templates/huawei_vrf.fsm') }}"
+    # vrf_import: "{{ vrfs.stdout[0] | parse_cli_textfsm('./rehoming/templates/huawei_vrf_i.fsm') }}"
+    # vrf_export: "{{ vrfs.stdout[0] | parse_cli_textfsm('./rehoming/templates/huawei_vrf_e.fsm') }}"
+  delegate_to: localhost
+
+# - name: Cada VPN  
+  # ce_command:
+    # commands:
+      # - 'dis cur conf vpn-instance {{item.vpn}}'
+      # - "dis cur conf vpn-instance {{item.vpn}} | inc import | count "
+  # with_items:
+    # - "{{vrf}}"
+  # register: total
+  
+# - name: total
+  # debug:
+    # msg:
+      # - '{{total}}'
+  # with_items:
+    # - '{{vrf}}'  
+  
+# - name: Largo Import
+  # set_fact:
+    # cant_imp: "{{vrf_import | length }}"
+ 
+# - name: nombre
+  # debug:
+    # msg:
+      # - '{{vrf[:5].vpn}}'    
+
+      
+# - name: Largo 
+  # set_fact:
+    # cant_vrf: "{{vrf | length}}"
+    # cant_imp: "{{vrf_import | length }}"
+    # name: "{{ansible_host}}"
+    
+# - name: Generar CSV_VRF
+  # template:
+    # src:  './rehoming/templates/huawei_vrf_ie.j2'
+    # dest: './rehoming/files/Huawei_vrf_i.csv'
+  # delegate_to: localhost
+  # ignore_errors: True
+  
+# - name: Generar CSV_VRF
+  # template:
+    # src:  './rehoming/templates/huawei_vrf.j2'
+    # dest: './rehoming/files/Huawei_vrf_e.csv'
+  # delegate_to: localhost
+  # ignore_errors: True
+  
+# - name: Generar CSV_VRF
+  # template:
+    # src:  './rehoming/templates/huawei_vrf.j2'
+    # dest: './rehoming/files/Huawei_vrf.csv'
+  # delegate_to: localhost
+  # ignore_errors: True

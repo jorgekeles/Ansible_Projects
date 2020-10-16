@@ -1,0 +1,5 @@
+Value vrf_name ([\s\S]+)
+Value r_dis (\d+:\d+)
+
+Start
+  ^set routing-instances\s+${vrf_name}\s+route-distinguisher\s+${r_dis} -> Record

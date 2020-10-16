@@ -1,0 +1,27 @@
+---
+
+- name: Show VRF
+  iosxr_command:
+    commands:
+        - 'show running-config formal | include vrf | include rd'
+  register: vrfs
+  retries: 2
+  delay: 2
+    
+- name: Parseo Version 
+  set_fact:
+    vrf: "{{ vrfs.stdout[0] | parse_cli_textfsm('./rehoming/templates/cisco_vrf.fsm') }}"
+  delegate_to: localhost
+
+- name: Largo 
+  set_fact:
+    cant_vrf: "{{vrf | length}}"
+    name: "{{ansible_host}}"
+    
+  
+- name: Generar CSV_VRF
+  template:
+    src:  './rehoming/templates/cisco_vrf.j2'
+    dest: './rehoming/files/Cisco_vrf.csv'
+  delegate_to: localhost
+  ignore_errors: True 

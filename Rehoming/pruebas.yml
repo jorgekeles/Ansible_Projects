@@ -1,0 +1,42 @@
+---
+- name: Role Rehoming
+  hosts: ZAB3MU
+  connection: network_cli
+  gather_facts: false
+  
+  tasks:
+    - name: prueba
+      ce_command:
+        commands:
+          - 'dis cur conf vpn-instance'
+      register: pruba
+      
+    - name: parseo
+      set_fact:
+        prueba: "{{ pruba.stdout[0] | parse_cli_textfsm('./rehoming/templates/prueba.fsm') }}"
+        #imp: "{{ pruba.stdout[0] | parse_cli_textfsm('./rehoming/templates/huawei_vrf_i.fsm') }}"
+    
+    - name: Particular Import
+      ce_command:
+        commands:
+          - 'dis cur conf vpn-instance {{item.nombre[:]}} | inc import'
+      with_items:
+        - "{{prueba}}"           
+          
+    # - name: Elimino Repetidos
+      # debug:
+        # msg:
+          # - "{{item.nombre[:]}}"
+      # with_items:
+        # - "{{prueba}}" 
+    
+    # - name: contador
+      # set_fact:
+        # cant_imp:"{{imp | length}}"
+    
+    # - name: Generar CSV_VRF
+      # template:
+        # src:  './rehoming/templates/prueba.j2'
+        # dest: './rehoming/files/prueba.csv'
+      # delegate_to: localhost
+      # ignore_errors: True

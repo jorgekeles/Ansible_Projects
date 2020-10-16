@@ -1,0 +1,27 @@
+---
+
+- name: VRF
+  junos_command:
+    commands:
+      - "show configuration routing-instances | match route-distinguisher | display set"
+  register: vrfs
+  retries: 2
+  delay: 2
+  
+- name: Parseo Chassis / VRF 
+  set_fact:
+    vrf: "{{ vrfs.stdout[0] | parse_cli_textfsm('./rehoming/templates/juniper_vrf.fsm') }}"
+  delegate_to: localhost
+ 
+- name: Largo 
+  set_fact:
+    cant_vrf: "{{vrf | length}}"
+    name: "{{ansible_host}}"
+ 
+  
+- name: Generar CSV_VRF
+  template:
+    src:  './rehoming/templates/juniper_vrf.j2'
+    dest: './rehoming/files/Juniper_vrf.csv'
+  delegate_to: localhost
+  ignore_errors: True 

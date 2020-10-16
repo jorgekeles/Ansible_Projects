@@ -1,0 +1,6 @@
+Value export (\w+:\w+)
+
+
+
+Start
+  ^\s+vpn-target\s+${export} export-extcommunity -> Record
